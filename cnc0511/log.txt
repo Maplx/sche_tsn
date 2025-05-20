@@ -1,0 +1,82 @@
+
+    sudo rm *.log
+    
+sudo tc qdisc del dev i210 root
+sudo tc qdisc add dev i210 parent root handle 6666 mqprio num_tc 2 map 0 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 queues 1@0 1@1 hw 0;sudo tc qdisc add dev i210 parent 6666:2 etf clockid CLOCK_TAI delta 300000 offload
+for i in {0..255}; do ip link show vlan$i > /dev/null 2>&1 && sudo ip link delete vlan$i; done
+sudo ip link add link i210 name vlan2 type vlan id 2;sudo ip addr add 192.168.2.2/24 dev vlan2;sudo ip link set vlan2 up
+sudo ip link add link i210 name vlan5 type vlan id 5;sudo ip addr add 192.168.5.1/24 dev vlan5;sudo ip link set vlan5 type vlan egress 0:0;sudo ip link set vlan5 type vlan egress 1:1;sudo ip link set vlan5 type vlan egress 2:2;sudo ip link set vlan5 type vlan egress 3:3;sudo ip link set vlan5 type vlan egress 4:4;sudo ip link set vlan5 type vlan egress 5:5;sudo ip link set vlan5 type vlan egress 6:6;sudo ip link set vlan5 type vlan egress 7:7;sudo ip link set vlan5 up
+sudo killall -9 phc2sys; sudo killall -9 ptp4l
+sudo systemctl stop systemd-timesyncd; sudo systemctl stop ntp
+Failed to stop ntp.service: Unit ntp.service not loaded.
+
+nohup sudo ptp4l -i i210 -f /home/ubuntu/code/RPiTSN/config/gptp.cfg -m > ./ptp.log 2>&1 &
+nohup sudo phc2sys -s i210 -c CLOCK_REALTIME -m -O 0 > ./phc.log 2>&1 &
+sudo python3 /home/ubuntu/testcon.py -d 192.168.5.2 -v 5 -p 2 -i i210
+Send packet to 192.168.5.2 through i210: VLAN=5, PCP=2
+No reply from 192.168.5.2 (sent from 192.168.0.16)
+
+WARNING: MAC address to reach destination not found. Using broadcast.
+
+k set vlan7 up
+sudo killall -9 phc2sys; sudo killall -9 ptp4l
+sudo systemctl stop systemd-timesyncd; sudo systemctl stop ntp
+Failed to stop ntp.service: Unit ntp.service not loaded.
+
+nohup sudo ptp4l -i i210 -f /home/ubuntu/code/RPiTSN/config/gptp.cfg -m > ./ptp.log 2>&1 &
+nohup sudo phc2sys -s i210 -c CLOCK_REALTIME -m -O 0 > ./phc.log 2>&1 &
+sudo python3 /home/ubuntu/testcon.py -d 192.168.3.2 -v 3 -p 2 -i i210
+Send packet to 192.168.3.2 through i210: VLAN=3, PCP=2
+Reply received from 192.168.3.2 through i210 (untagged response)
+
+OCK_REALTIME -m -O 0 > ./phc.log 2>&1 &
+sudo python3 /home/ubuntu/testcon.py -d 192.168.2.2 -v 2 -p 3 -i i210
+Send packet to 192.168.2.2 through i210: VLAN=2, PCP=3
+Reply received from 192.168.2.2 through i210 (untagged response)
+
+sudo python3 /home/ubuntu/testcon.py -d 192.168.4.2 -v 4 -p 5 -i i210
+Send packet to 192.168.4.2 through i210: VLAN=4, PCP=5
+Reply received from 192.168.4.2 through i210 (untagged response)
+
+, errno is reported in lower 8 bits for more information)
+ERROR: Cannot set admin control list - driver reported 22 (Invalid argument)
+
+tsntool st wrcl sw0p5 sw07_5.cfg
+ERROR: Cannot set admin control list - tsnlib reported 13 (Failed writing a list to driver, errno is reported in lower 8 bits for more information)
+ERROR: Cannot set admin control list - driver reported 22 (Invalid argument)
+
+tsntool st configure 1521380420.000000000 1/1000 0 sw0p4
+tsntool st configure 1521380420.000000000 1/1000 0 sw0p5
+p4
+tsntool st configure 1521380420.000000000 1/1000 0 sw0p5
+ol st configure 1521380420.000000000 1/1000 0 sw0p4
+tsntool st configure 1521380420.000000000 1/1000 0 sw0p5
+1380412.435870134
+
+date +%s.%N
+1521380413.453780796
+
+date +%s.%N
+1521380414.471652658
+
+date +%s.%N
+1521380415.489888940
+
+date +%s.%N
+1521380416.512510362
+
+date +%s.%N
+1521380417.830131560
+
+date +%s.%N
+1521380418.848538870
+
+date +%s.%N
+1521380419.867040151
+
+date +%s.%N
+1521380420.885748961
+
+date +%s.%N
+1521380421.909589011
+
